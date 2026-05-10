@@ -1,0 +1,55 @@
+# render.yaml - Render Blueprint Definition
+# Documentation: https://render.com/docs/blueprint-spec
+
+services:
+  - type: web
+    name: spark-s3-microservice
+    runtime: docker
+    region: oregon  # Options: oregon, frankfurt, ohio, singapore
+    plan: starter  # Options: starter (free), pro
+
+    dockerfilePath: ./Dockerfile
+
+    healthCheckPath: /health
+
+    envVars:
+      # Application
+      - key: APP_ENV
+        value: production
+
+      - key: PORT
+        value: "8080"
+
+      - key: LOG_LEVEL
+        value: info
+
+      # Yandex S3 Configuration
+      - key: YANDEX_ENDPOINT
+        sync: false  # Secret - not shown in dashboard
+
+      - key: YANDEX_BUCKET
+        sync: false  # Secret
+
+      - key: YANDEX_ACCESS_KEY_ID
+        sync: false  # Secret
+
+      - key: YANDEX_SECRET_ACCESS_KEY
+        sync: false  # Secret
+
+      - key: YANDEX_S3_REGION
+        value: ru-central1
+
+      # Firebase Configuration
+      - key: FIREBASE_CREDENTIALS_PATH
+        value: /app/firebase-service-account.json
+
+      # Presigned URL Expiry (seconds)
+      - key: PRESIGNED_URL_EXPIRY_UPLOAD
+        value: "300"  # 5 minutes
+
+      - key: PRESIGNED_URL_EXPIRY_DOWNLOAD
+        value: "900"  # 15 minutes
+
+      # CORS (comma-separated origins)
+      - key: CORS_ALLOWED_ORIGINS
+        value: "https://spark-2ea6a.web.app,http://localhost:3000"
