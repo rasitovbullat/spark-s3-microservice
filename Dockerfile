@@ -35,7 +35,7 @@ RUN adduser -D -g '' appuser
 COPY --from=builder /server /app/server
 
 # Copy Firebase credentials (if present)
-COPY --from=builder /app/firebase-service-account.json /app/firebase-service-account.json 2>/dev/null || true
+#COPY --from=builder /app/firebase-service-account.json /app/firebase-service-account.json 2>/dev/null || true
 
 # Change ownership
 RUN chown -R appuser:appuser /app
